@@ -2,7 +2,7 @@ import { json } from "body-parser";
 import joi from "joi";
 import { ValidationResult } from 'joi';
 import { Base } from "./Base";
-import { CollectionReference, DocumentSnapshot, DocumentReference } from "@google-cloud/firestore";
+import { CollectionReference, DocumentSnapshot, DocumentReference, WriteResult } from "@google-cloud/firestore";
 
 export default class  Address  {
 
@@ -129,10 +129,15 @@ export default class  Address  {
 
       if(!doc.exists) throw new Error("No Address exists with that Id.");
 
-      console.log(doc.data());
       return Promise.resolve(new Address(doc.data(), id));
+
     }
     
+    static async removeById(id : string) : Promise<boolean> {
+
+      const result : WriteResult = await Address.collection.doc(id).delete();
+      return true;
+    }
 
     async save() : Promise<string> {
 

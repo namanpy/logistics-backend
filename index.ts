@@ -2,8 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { firebaseApp } from './backend/firebase';
 import { Base } from "./backend/model/Base";
+import * as dotenv from 'dotenv';
+
 
 //Import Middlewares
+dotenv.config();
 import errorMiddleware  from './backend/middleware/error';
 import { User, userMiddleware } from './backend/middleware/firebaseUser';
 
@@ -27,8 +30,17 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(errorMiddleware);
 
-User.generateCustomToken('uCJZLZ5w4oWMXmj30ibD62twQQN2');
 
 
 app.use("/address", userMiddleware, addressRouter);
 
+app.listen(3000, () => {
+    User.generateCustomToken('uCJZLZ5w4oWMXmj30ibD62twQQN2').then(
+        (user : User) => {
+            console.log("Custom generated token -> ", user.token);
+        }  
+    ).catch(err => console.error(err));
+
+    console.log()
+    console.log(`Listening on port 3000`);
+})

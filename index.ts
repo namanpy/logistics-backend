@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { firebaseApp } from './backend/firebase';
 import { Base } from "./backend/model/Base";
 import * as dotenv from 'dotenv';
-
+import Address from './backend/model/Address';
 
 //Import Middlewares
 dotenv.config();
@@ -24,6 +24,8 @@ const portNumber : number  = 3000;
 
 //Set Up Object Relation Model
 Base.setFirebase(firebaseApp);
+Address.setup("address");
+
 
 // Set parsing to JSON and use CORS
 app.use(bodyParser.json()); 

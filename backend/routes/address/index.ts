@@ -65,8 +65,13 @@ router.post('/update', async (req : Request , res : Response, next : Function)  
 
                 const id : string = req.body.id;
                 joi.assert(id, joi.string());
-                const data = req.body;
                 
+                const data = JSON.parse(JSON.stringify(req.body));
+                delete data.token;
+                delete data.user;
+                delete data.id;
+
+
                 const address : Address = await Address.getById(id);
 
                 if(address.user != req.body.user.id) return res.status(400).send({ message : "Cannot update other users address." });

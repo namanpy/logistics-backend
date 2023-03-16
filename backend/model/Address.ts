@@ -29,10 +29,6 @@ export default class  Address  {
       id? : string
     ) {
     
-      if(!Address.isSetup ) Address.setup("address");
-       
-      
-
 
       this.schema = joi.object({
 
@@ -115,13 +111,9 @@ export default class  Address  {
       }
     }
    
-    update(data : any) {
-      const updateschema = joi.object({
+    async update(data : any) {
 
-        user : joi.string()
-                  .alphanum()
-                  .min(1)
-                  .max(30),
+      const updateschema = joi.object({
 
         fullName  : joi.string()
                        .min(3)
@@ -166,17 +158,17 @@ export default class  Address  {
       if(result.error) throw result.error;
 
 
-      this.user = data.user;
-      this.fullName = data.fullName;
-      this.phoneCode = data.phoneCode;
-      this.phoneNumber = data.phoneNumber;
-      this.addressLine1 =  data.addressLine1;
-      this.addressLine2 =  data.addressLine2;
-      this.city = data. city;
-      this.state = data. state;
-      this.pincode =  data.pincode;
-      this.country = data.country;
+      this.fullName = data.fullName ?  data.fullName : this.fullName ;
+      this.phoneCode = data.phoneCode ?  data.phoneCode : this.phoneCode;
+      this.phoneNumber = data.phoneNumber ?  data.phoneNumber : this.phoneNumber;
+      this.addressLine1 = data.addressLine1 ?  data.addressLine1 : this.addressLine1;
+      this.addressLine2 =  data.addressLine2 ?  data.addressLine2 : this.addressLine2;
+      this.city = data.city ?  data.city : this.city;
+      this.state = data.state ?  data.state : this.state;
+      this.pincode =  data.pincode ?  data.pincode : this.pincode;
+      this.country = data.country ?  data.country : this.country;
 
+      this.save();
     }
 
     static setup(collectionName : string) {

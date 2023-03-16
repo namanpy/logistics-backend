@@ -115,6 +115,70 @@ export default class  Address  {
       }
     }
    
+    update(data : any) {
+      const updateschema = joi.object({
+
+        user : joi.string()
+                  .alphanum()
+                  .min(1)
+                  .max(30),
+
+        fullName  : joi.string()
+                       .min(3)
+                       .max(30),
+
+        phoneCode : joi.number()
+                       .min(10)
+                       .max(999),
+
+        phoneNumber : joi.number()
+                         .min(1000000000)
+                         .max(9999999999),
+
+        addressLine1 : joi.string()
+                          .min(2)
+                          .max(100),
+
+        addressLine2 : joi.string()
+                          .min(2)
+                          .max(100),
+        
+        city :  joi.string()
+                   .min(2)
+                   .max(100),
+
+        state : joi.string()
+                    .min(2)
+                    .max(100),
+
+        pincode :  joi.number()
+                      .min(0)
+                      .max(999999),
+
+        country : joi.string()
+                     .min(2)
+                     .max(100), 
+
+      });
+      
+      const result : ValidationResult= updateschema.validate(data);
+    
+      if(result.error) throw result.error;
+
+
+      this.user = data.user;
+      this.fullName = data.fullName;
+      this.phoneCode = data.phoneCode;
+      this.phoneNumber = data.phoneNumber;
+      this.addressLine1 =  data.addressLine1;
+      this.addressLine2 =  data.addressLine2;
+      this.city = data. city;
+      this.state = data. state;
+      this.pincode =  data.pincode;
+      this.country = data.country;
+
+    }
+
     static setup(collectionName : string) {
     
       Address.collectionName = collectionName;
@@ -161,7 +225,6 @@ export default class  Address  {
 
     toJson() : any {
       return {
-      id           : this.id,
       user         : this.user,
       fullName     : this.fullName,
       phoneCode    : this.phoneCode,

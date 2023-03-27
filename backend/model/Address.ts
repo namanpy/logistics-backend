@@ -8,15 +8,18 @@ export default class  Address  {
 
     id? : string;
     user? : string;
-    fullName?  : string;
-    phoneCode? : number;
-    phoneNumber? : number;
-    addressLine1? : string;
-    addressLine2? : string;
-    city? : string;
-    state? : string;
-    pincode? : string;
-    country? : string;    
+    from? : string;
+    from_lat? : number;
+    from_long? : number;
+    to? : string;
+    to_lat? : number;
+    to_long? : number;
+    status? : number;
+    createdAt? : Date;
+    updatedAt? : Date;
+    cost? : number;
+    distance? : number;
+    vehicleId? : string; 
     
     schema : joi.Schema;
 
@@ -38,50 +41,57 @@ export default class  Address  {
                   .max(30)
                   .required(),
 
-        fullName  : joi.string()
-                       .min(3)
-                       .max(30)
-                       .required(),
 
-        phoneCode : joi.number()
-                       .min(10)
-                       .max(999)
-                       .required(),
+        from : joi.string()
+                  .min(1)
+                  .max(300)
+                  .required(),
+  
+        from_lat : joi.number()
+                    .required(),
+  
+        from_long : joi.number()
+                     .required(),
 
-        phoneNumber : joi.number()
-                         .min(1000000000)
-                         .max(9999999999)
-                         .required(),
+        to : joi.string()
+                .min(1)
+                .max(300)
+                .required(),
 
-        addressLine1 : joi.string()
-                          .min(2)
-                          .max(100)
-                          .required(),
-
-        addressLine2 : joi.string()
-                          .min(2)
-                          .max(100)
-                          .required(),
-        
-        city :  joi.string()
-                   .min(2)
-                   .max(100)
-                   .required(),
-
-        state : joi.string()
-                    .min(2)
-                    .max(100)
+        to_lat : joi.number()
                     .required(),
 
-        pincode :  joi.number()
+        to_long : joi.number()
+                     .required(),
+
+        status : joi.number()
+                    .custom((value, helper) => {
+                      
+                      if(![1, 2, 3, 4, 5].includes(value)) {
+                        return helper.message({ custom : "Not a Valid Status." });
+                      }
+
+                      return true;
+
+                    }),
+        
+        createdAt :  joi.date().required(),
+
+        updateAt : joi.date().required(),
+
+        cost :  joi.number()
                       .min(0)
-                      .max(999999)
+                      .max(999999999)
+                      .required(),
+        distance :  joi.number()
+                      .min(0)
+                      .max(999999999)
                       .required(),
 
-        country : joi.string()
-                     .min(2)
+        vehicleId : joi.string()
+                     .min(1)
                      .max(100)
-                     .required(), 
+                     .required() 
 
       });
       
@@ -93,15 +103,18 @@ export default class  Address  {
         } else {
 
           this.user = data.user;
-          this.fullName = data.fullName;
-          this.phoneCode = data.phoneCode;
-          this.phoneNumber = data.phoneNumber;
-          this.addressLine1 =  data.addressLine1;
-          this.addressLine2 =  data.addressLine2;
-          this.city = data. city;
-          this.state = data. state;
-          this.pincode =  data.pincode;
-          this.country = data.country;
+          this.from = data.from;
+          this.from_lat = data.from_lat;
+          this.from_long = data.from_long;
+          this.to = data.to;
+          this.to_lat = data.to_lat;
+          this.to_long = data.to_long;
+          this.status = data.status;
+          this.createdAt = data.createdAt;
+          this.updatedAt =  data.updatedAt;
+          this.cost = data.cost;
+          this.distance = data.distance;
+          this.vehicleId = data.vehicleId;
 
         }
 

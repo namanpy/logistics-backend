@@ -86,3 +86,21 @@ router.post('/update', async (req : Request , res : Response, next : Function)  
         }
 }
 );
+
+
+router.post('/getall', async (req : Request , res : Response, next : Function)  => { 
+        try {
+
+                const order : Order[] = await Order.getAll(req.body.user.id);
+                const serializedOrders : any = [];
+                for(let i in order) {
+                        serializedOrders.push(order[i].toJson());
+                }
+                
+                return res.status(200).send(serializedOrders);         
+
+        } catch(err) {
+                next(err);
+        }
+}
+);

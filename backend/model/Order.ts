@@ -2,7 +2,7 @@ import { json } from "body-parser";
 import joi, { alternatives } from "joi";
 import { ValidationResult } from 'joi';
 import { Base } from "./Base";
-import { CollectionReference, DocumentSnapshot, DocumentReference, WriteResult, Timestamp } from "@google-cloud/firestore";
+import { CollectionReference, QuerySnapshot, DocumentSnapshot, DocumentReference, WriteResult, Timestamp } from "@google-cloud/firestore";
 import { timeStamp } from "console";
 
 export default class  Order  {
@@ -247,6 +247,20 @@ export default class  Order  {
 
       const result : WriteResult = await Order.collection.doc(id).delete();
       return true;
+    }
+
+
+    static async getAll(user : string) : Promise<Order[]> {
+
+      const orders : Order[] = [];
+      const querydocs : QuerySnapshot = await Order.collection.where("user" , "==" , user).orderBy("createdAt").get();
+
+      for( let i in querydocs.docs) {
+
+        orders.push(new Order(querydocs.docs[i].data()));
+
+      }
+      return Promise.resolve(orders);
     }
 
     async save() : Promise<string> {

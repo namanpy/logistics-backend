@@ -1,4 +1,4 @@
-import Address from './backend/model/Address';
+import Address from './backend/model/Order';
 import { ValidationError } from 'joi';
 import { firebaseApp } from './backend/firebase';
 import { Base } from "./backend/model/Base";

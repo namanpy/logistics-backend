@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import { firebaseApp } from './backend/firebase';
 import { Base } from "./backend/model/Base";
 import * as dotenv from 'dotenv';
-import Address from './backend/model/Address';
+import Address from './backend/model/Order';
 
 //Import Middlewares
 dotenv.config();
@@ -11,7 +11,7 @@ import errorMiddleware  from './backend/middleware/error';
 import { User, userMiddleware } from './backend/middleware/firebaseUser';
 
 //Import Routers
-import { router as addressRouter } from './backend/routes/address';
+import { router as addressRouter } from './backend/routes/order';
 
 
 
@@ -34,7 +34,7 @@ app.use(errorMiddleware);
 
 
 
-app.use("/address", userMiddleware, addressRouter);
+app.use("/order", userMiddleware, addressRouter);
 
 app.listen(3000, () => {
     User.generateCustomToken('uCJZLZ5w4oWMXmj30ibD62twQQN2').then(
